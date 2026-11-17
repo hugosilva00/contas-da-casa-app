@@ -1,0 +1,43 @@
+<!doctype html>
+<!--
+  Contas da Casa — "casca" da app instalável (PWA).
+  Só mostra a página do Apps Script em ecrã inteiro. Toda a lógica e as atualizações
+  continuam no Apps Script (npm run deploy); esta casca quase nunca muda.
+-->
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contas da Casa</title>
+<meta name="theme-color" content="#2b5797">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  html, body { margin: 0; height: 100%; background: #ffffff; }
+  @media (prefers-color-scheme: dark) { html, body { background: #202124; } }
+  iframe { border: 0; width: 100%; height: 100%; display: block; }
+  #ajuda { position: absolute; left: 16px; right: 16px; bottom: 16px; padding: 12px 14px; border-radius: 8px;
+           background: #fef7e0; color: #202124; font: 14px Arial, sans-serif; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  #ajuda a { color: #1a73e8; font-weight: bold; }
+</style>
+</head>
+<body>
+  <iframe id="pagina" title="Contas da Casa" allow="camera; clipboard-write"
+    src="https://script.google.com/macros/s/AKfycbyCtQ4TwTX3KlreH5baYelr7b3Sff4QrGGDJ41MqNEKQ7Bguge-OY4Z8D2X5_uqGzkK/exec"></iframe>
+
+  <div id="ajuda" hidden>
+    A página está a demorar a abrir.
+    <a href="https://script.google.com/macros/s/AKfycbyCtQ4TwTX3KlreH5baYelr7b3Sff4QrGGDJ41MqNEKQ7Bguge-OY4Z8D2X5_uqGzkK/exec"
+       target="_blank" rel="noopener">Abrir no browser</a>
+  </div>
+
+<script>
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  // Se a página não carregar (sem rede, sessão Google noutra conta…), mostra um atalho para o browser
+  let carregou = false;
+  document.getElementById('pagina').addEventListener('load', () => { carregou = true; });
+  setTimeout(() => { if (!carregou) document.getElementById('ajuda').hidden = false; }, 15000);
+</script>
+</body>
+</html>
